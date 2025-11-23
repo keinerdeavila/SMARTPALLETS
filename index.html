@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPallet - Monitoreo Inteligente de Carga</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            margin-right: 12px;
+            font-size: 2.2rem;
+        }
+
+        .logo-text {
+            background: linear-gradient(45deg, #ffffff, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #e74c3c;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ffffff, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        /* Digital Channel Section */
+        .digital-channel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 2rem;
+        }
+
+        .channel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .channel-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .channel-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .channel-features li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .channel-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .channel-platforms {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            backdrop-filter: blur(10px);
+        }
+
+        .platform-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .channel-visual {
+            text-align: center;
+        }
+
+        .platform-mockup {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            color: #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mockup-header {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .mockup-feature {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: #2c3e50;
+            color: white;
+            padding: 5rem 2rem;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            padding: 5rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .dashboard-mockup {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #34495e;
+            border-radius: 10px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .dashboard-header {
+            background: #2c3e50;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric {
+            background: #3498db;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .alert-list {
+            background: #2c3e50;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .alert {
+            background: #e74c3c;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 3px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #3498db, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .channel-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .platform-card {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/573001234567?text=Hola%20SmartPallet,%20me%20interesa%20saber%20más%20sobre%20sus%20servicios" 
+       class="whatsapp-float" 
+       target="_blank">
+       📱
+    </a>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#inicio" class="logo">
+                <span class="logo-icon">🚛</span>
+                <span class="logo-text">SmartPallet</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#caracteristicas">Características</a></li>
+                    <li><a href="#canal-digital">Plataforma Digital</a></li>
+                    <li><a href="#funcionamiento">Cómo Funciona</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>SmartPallet</h1>
+            <p>Monitoreo inteligente de mercancías frágiles con sensores de impacto integrados. Reduce pérdidas y mejora la trazabilidad de tu carga.</p>
+            <a href="#canal-digital" class="cta-button">Acceder a la Plataforma</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="caracteristicas">
+        <h2 class="section-title">Características Principales</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Monitoreo en Tiempo Real</h3>
+                <p>Detección inmediata de impactos y vibraciones durante el transporte</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔋</div>
+                <h3>Batería de Larga Duración</h3>
+                <p>Hasta 24 meses de autonomía con tecnología BLE de bajo consumo</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌧️</div>
+                <h3>Resistente al Ambiente</h3>
+                <p>Carcasa IP65 resistente a polvo, humedad y condiciones extremas</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>App Móvil Integrada</h3>
+                <p>Gestión y alertas desde tu dispositivo móvil con interfaz intuitiva</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Channel Section -->
+    <section class="digital-channel" id="canal-digital">
+        <div class="channel-container">
+            <div class="channel-content">
+                <h2>Plataforma Digital SmartPallet</h2>
+                <p>Gestiona todos tus pallets inteligentes desde nuestra plataforma web integral</p>
+                
+                <ul class="channel-features">
+                    <li><strong>Solicitar cotizaciones personalizadas</strong> según cantidad de pallets</li>
+                    <li><strong>Agendar servicios de instalación</strong> en línea</li>
+                    <li><strong>Consultar reportes detallados</strong> de impactos y trayectos</li>
+                    <li><strong>Descargar manuales de usuario</strong> y certificados de calibración</li>
+                    <li><strong>Soporte técnico especializado</strong> vía WhatsApp y correo</li>
+                </ul>
+
+                <div class="channel-platforms">
+                    <div class="platform-card">
+                        <div class="platform-icon">💻</div>
+                        <h4>Plataforma Web</h4>
+                        <p>Gestión centralizada</p>
+                    </div>
+                    <div class="platform-card">
+                        <div class="platform-icon">📱</div>
+                        <h4>WhatsApp Business</h4>
+                        <p>Soporte inmediato</p>
+                    </div>
+                    <div class="platform-card">
+                        <div class="platform-icon">✉️</div>
+                        <h4>Email Corporativo</h4>
+                        <p>Seguimiento de pedidos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="channel-visual">
+                <div class="platform-mockup">
+                    <div class="mockup-header">
+                        <h3>SmartPallet Platform</h3>
+                        <p>Panel de Control del Cliente</p>
+                    </div>
+                    <div class="mockup-feature">
+                        <strong>📋 Mis Cotizaciones</strong>
+                        <p>3 solicitudes pendientes</p>
+                    </div>
+                    <div class="mockup-feature">
+                        <strong>📅 Instalaciones</strong>
+                        <p>Próxima: 25 Mar 2025</p>
+                    </div>
+                    <div class="mockup-feature">
+                        <strong>📊 Reportes</strong>
+                        <p>5 reportes disponibles</p>
+                    </div>
+                    <div class="mockup-feature">
+                        <strong>📁 Documentación</strong>
+                        <p>Manuales y certificados</p>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: #e3f2fd; border-radius: 5px;">
+                        <strong>💬 Soporte Online</strong>
+                        <p>Disponible 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="funcionamiento">
+        <h2 class="section-title" style="color: white;">Cómo Funciona</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Instalación</h3>
+                <p>Adaptamos sensores en tus pallets existentes</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Monitoreo</h3>
+                <p>Sensores detectan impactos durante el transporte</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Alerta</h3>
+                <p>Recibe notificaciones en tiempo real</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Análisis</h3>
+                <p>Genera reportes para mejora continua</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard-preview" id="dashboard">
+        <h2 class="section-title">Dashboard de Control</h2>
+        <p>Gestiona y monitorea todos tus pallets inteligentes desde una sola plataforma</p>
+        
+        <div class="dashboard-mockup">
+            <div class="dashboard-header">
+                <h3>SmartPallet - Panel de Control</h3>
+            </div>
+            
+            <div class="metrics">
+                <div class="metric">
+                    <h4>Pallets Activos</h4>
+                    <p>48</p>
+                </div>
+                <div class="metric">
+                    <h4>Alertas Hoy</h4>
+                    <p>3</p>
+                </div>
+                <div class="metric">
+                    <h4>Impacto Máx.</h4>
+                    <p>6.8 g</p>
+                </div>
+                <div class="metric">
+                    <h4>Eficiencia</h4>
+                    <p>94%</p>
+                </div>
+            </div>
+            
+            <div class="alert-list">
+                <h4>Alertas Recientes</h4>
+                <div class="alert">
+                    <strong>#SP-2025-087</strong> - Impacto: 5.2g - 14:35
+                </div>
+                <div class="alert">
+                    <strong>#SP-2025-043</strong> - Impacto: 3.5g - 11:10
+                </div>
+                <div class="alert">
+                    <strong>#SP-2025-112</strong> - Impacto: 4.8g - 09:22
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contacto">
+        <h2 class="section-title">Contáctanos</h2>
+        <p>¿Listo para revolucionar tu logística? Solicita una demostración</p>
+        
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Empresa</label>
+                    <input type="text" id="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Teléfono</label>
+                    <input type="tel" id="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Servicio de Interés</label>
+                    <select id="service" required>
+                        <option value="">Selecciona un servicio</option>
+                        <option value="cotizacion">Cotización de Sensores</option>
+                        <option value="instalacion">Instalación en Pallets</option>
+                        <option value="soporte">Soporte Técnico</option>
+                        <option value="demo">Demostración Plataforma</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" placeholder="Cuéntanos sobre tus necesidades logísticas..."></textarea>
+                </div>
+                
+                <button type="submit" class="cta-button">Enviar Solicitud</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">SmartPallet</div>
+        <p>&copy; 2025 SmartPallet. Todos los derechos reservados.</p>
+        <p>Tecnología en Gestión Logística y Portuaria - Fundación Universitario Tecnológico Comfenalco</p>
+        <div style="margin-top: 1rem;">
+            <p>📧 info@smartpallet.com | 📱 WhatsApp: +57 300 123 4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a, .logo').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const service = document.getElementById('service').value;
+            let message = '¡Gracias por tu interés en SmartPallet! ';
+            
+            if (service === 'cotizacion') {
+                message += 'Nuestro equipo te contactará para enviarte una cotización personalizada.';
+            } else if (service === 'instalacion') {
+                message += 'Te contactaremos para agendar una instalación.';
+            } else if (service === 'demo') {
+                message += 'Te enviaremos los accesos para la demostración de nuestra plataforma.';
+            } else {
+                message += 'Nos pondremos en contacto contigo pronto.';
+            }
+            
+            alert(message);
+            this.reset();
+        });
+
+        // WhatsApp button interaction
+        document.querySelector('.whatsapp-float').addEventListener('click', function() {
+            // Aquí puedes agregar tracking de analytics si es necesario
+            console.log('WhatsApp button clicked');
+        });
+    </script>
+</body>
+</html>
